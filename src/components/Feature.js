@@ -7,14 +7,10 @@ import { fetchQueryResultsFromTermAndValue } from '../api';
  * We need a new component called Searchable which:
  * 
  * Has a template like this:
- * 
- * <span className="content">
- *  <a href="#" onClick={async (event) => {}}>SOME SEARCH TERM</a>
- * </span>
- *
- * You'll need to read searchTerm, searchValue, setIsLoading, and setSearchResults off of the props.
- * 
- * When someone clicks the anchor tag, you should:
+ * You'll need to read searchTerm, searchValue, setIsLoading, and setSearchResults off of the props.*/
+    const {searchTerm, searchValue, setIsLoading, setSearchResults} = props;
+    
+ /** When someone clicks the anchor tag, you should:
  * 
  * - preventDefault on the event
  * - call setIsLoading, set it to true
@@ -30,7 +26,26 @@ import { fetchQueryResultsFromTermAndValue } from '../api';
  *  - call setIsLoading, set it to false
  */
 const Searchable = (props) => {
-  
+
+
+    return (
+        <span className="content">
+            <a href="#" onClick={async (event) => {
+                event.preventDefault();
+                event.setIsLoading(true)
+
+                try{
+                    const result = await fetchQueryResultsFromTermAndValue([searchTerm, searchValue]);
+                    setSearchResults(result)
+                }
+                catch (err){
+                    console.log(err)
+                }
+                finally {
+                    setIsLoading(false)
+                }
+            }}>{result.searchValue}</a>
+        </span>)
 }
 
 /**
